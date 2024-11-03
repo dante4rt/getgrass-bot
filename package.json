@@ -1,17 +1,27 @@
 {
   "name": "getgrass-bot",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "A bot for establishing WebSocket connections through various HTTP and SOCKS proxies for farming Grass Airdrop Season 2.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "WebSocket",
+    "proxy",
+    "HTTP",
+    "SOCKS",
+    "bot",
+    "getgrass",
+    "airdrops",
+    "farming"
+  ],
+  "author": "dante4rt",
+  "license": "MIT",
   "dependencies": {
-    "http-proxy-agent": "^7.0.2",
     "https-proxy-agent": "^7.0.4",
+    "inquirer": "^8.2.6",
     "socks-proxy-agent": "^8.0.2",
     "uuid": "^9.0.1",
     "ws": "^8.16.0"
