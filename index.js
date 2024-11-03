@@ -42,9 +42,11 @@ async function main() {
 
   console.log(`Loaded ${userIDs.length} user IDs\n`.green);
 
-  for (const userID of userIDs) {
-    proxies.forEach((proxy) => bot.connectToProxy(proxy, userID));
-  }
+  const connectionPromises = userIDs.flatMap((userID) =>
+    proxies.map((proxy) => bot.connectToProxy(proxy, userID))
+  );
+
+  await Promise.all(connectionPromises);
 }
 
 main().catch(console.error);
