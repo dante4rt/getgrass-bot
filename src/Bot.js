@@ -113,6 +113,70 @@ class Bot {
     }
   }
 
+  async connectDirectly(userID) {
+    try {
+      const wsURL = `wss://${this.config.wssHost}`;
+      const ws = new WebSocket(wsURL, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0',
+          pragma: 'no-cache',
+          Origin: 'chrome-extension://lkbnfiajjmbhnfledhphioinpickokdi',
+          'Accept-Language': 'uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7',
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      ws.on('open', () => {
+        console.log(`Connected directly without proxy`.cyan);
+        this.sendPing(ws, 'Direct IP');
+      });
+
+      ws.on('message', (message) => {
+        const msg = JSON.parse(message);
+        console.log(`Received message: ${JSON.stringify(msg)}`.blue);
+
+        if (msg.action === 'AUTH') {
+          const authResponse = {
+            id: msg.id,
+            origin_action: 'AUTH',
+            result: {
+              browser_id: uuidv4(),
+              user_id: userID,
+              user_agent: 'Mozilla/5.0',
+              timestamp: Math.floor(Date.now() / 1000),
+              device_type: 'extension',
+              extension_id: 'lkbnfiajjmbhnfledhphioinpickokdi',
+              version: '4.26.2',
+            },
+          };
+          ws.send(JSON.stringify(authResponse));
+          console.log(
+            `Sent auth response: ${JSON.stringify(authResponse)}`.green
+          );
+        } else if (msg.action === 'PONG') {
+          console.log(`Received PONG: ${JSON.stringify(msg)}`.blue);
+        }
+      });
+
+      ws.on('close', (code, reason) => {
+        console.log(
+          `WebSocket closed with code: ${code}, reason: ${reason}`.yellow
+        );
+        setTimeout(
+          () => this.connectDirectly(userID),
+          this.config.retryInterval
+        );
+      });
+
+      ws.on('error', (error) => {
+        console.error(`WebSocket error: ${error.message}`.red);
+        ws.terminate();
+      });
+    } catch (error) {
+      console.error(`Failed to connect directly: ${error.message}`.red);
+    }
+  }
+
   sendPing(ws, proxyIP) {
     setInterval(() => {
       const pingMessage = {

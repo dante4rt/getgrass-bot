@@ -20,19 +20,25 @@ async function main() {
 
   const proxySource = await selectProxySource(inquirer);
 
-  let proxies;
+  let proxies = [];
   if (proxySource.type === 'file') {
     proxies = await readLines(proxySource.source);
-  } else {
+  } else if (proxySource.type === 'url') {
     proxies = await fetchProxies(proxySource.source);
+  } else if (proxySource.type === 'none') {
+    console.log('No proxy selected. Connecting directly.'.cyan);
   }
 
-  if (proxies.length === 0) {
+  if (proxySource.type !== 'none' && proxies.length === 0) {
     console.error('No proxies found. Exiting...'.red);
     return;
   }
 
-  console.log(`Loaded ${proxies.length} proxies`.green);
+  console.log(
+    proxySource.type !== 'none'
+      ? `Loaded ${proxies.length} proxies`.green
+      : 'Direct connection mode enabled.'.green
+  );
 
   const userIDs = await readLines('uid.txt');
   if (userIDs.length === 0) {
@@ -43,7 +49,9 @@ async function main() {
   console.log(`Loaded ${userIDs.length} user IDs\n`.green);
 
   const connectionPromises = userIDs.flatMap((userID) =>
-    proxies.map((proxy) => bot.connectToProxy(proxy, userID))
+    proxySource.type !== 'none'
+      ? proxies.map((proxy) => bot.connectToProxy(proxy, userID))
+      : [bot.connectDirectly(userID)]
   );
 
   await Promise.all(connectionPromises);
