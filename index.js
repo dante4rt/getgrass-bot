@@ -7,17 +7,7 @@ const {
   readLines,
   selectProxySource,
 } = require('./src/ProxyManager');
-const { delay } = require('./src/utils');
-
-function displayHeader() {
-  process.stdout.write('\x1Bc');
-  console.log('========================================'.cyan);
-  console.log('=        Grass Airdrop Bot - V2        ='.cyan);
-  console.log('=     Created by HappyCuanAirdrop      ='.cyan);
-  console.log('=    https://t.me/HappyCuanAirdrop     ='.cyan);
-  console.log('========================================'.cyan);
-  console.log();
-}
+const { delay, displayHeader } = require('./src/utils');
 
 async function main() {
   displayHeader();
