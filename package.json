@@ -20,6 +20,7 @@
   "author": "dante4rt",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.7.7",
     "colors": "^1.4.0",
     "https-proxy-agent": "^7.0.4",
     "inquirer": "^8.2.6",
