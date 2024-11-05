@@ -49,14 +49,15 @@ class Bot {
       const ws = new WebSocket(wsURL, {
         agent,
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
-          'Pragma': 'no-cache',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
+          Pragma: 'no-cache',
           'Accept-Language': 'uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7',
           'Cache-Control': 'no-cache',
-          'OS': 'Windows',
-          'Platform': 'Desktop',
-          'Browser': 'Mozilla'
-        },        
+          OS: 'Windows',
+          Platform: 'Desktop',
+          Browser: 'Mozilla',
+        },
       });
 
       ws.on('open', () => {
@@ -119,14 +120,15 @@ class Bot {
       const wsURL = `wss://${this.config.wssHost}`;
       const ws = new WebSocket(wsURL, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
-          'Pragma': 'no-cache',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0',
+          Pragma: 'no-cache',
           'Accept-Language': 'uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7',
           'Cache-Control': 'no-cache',
-          'OS': 'Windows',
-          'Platform': 'Desktop',
-          'Browser': 'Mozilla'
-        },        
+          OS: 'Windows',
+          Platform: 'Desktop',
+          Browser: 'Mozilla',
+        },
       });
 
       ws.on('open', () => {
