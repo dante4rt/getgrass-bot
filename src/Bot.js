@@ -80,7 +80,7 @@ class Bot {
               user_agent: 'Mozilla/5.0',
               timestamp: Math.floor(Date.now() / 1000),
               device_type: 'desktop',
-              version: '4.28.1',
+              version: '4.28.2',
             },
           };
           ws.send(JSON.stringify(authResponse));
@@ -150,7 +150,7 @@ class Bot {
               user_agent: 'Mozilla/5.0',
               timestamp: Math.floor(Date.now() / 1000),
               device_type: 'desktop',
-              version: '4.28.1',
+              version: '4.28.2',
             },
           };
           ws.send(JSON.stringify(authResponse));
