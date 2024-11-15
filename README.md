@@ -33,7 +33,7 @@ sudo apt install -y nodejs
 
 1. Obtain your user ID from the Getgrass website:
 
-   - Visit [https://app.getgrass.io/dashboard](https://app.getgrass.io/register/?referralCode=NXZg3yAsUsXKzy2).
+   - Visit [https://app.getgrass.io/dashboard](https://app.getgrass.io/register/?referralCode=2KTLkOimdD0N9Rk).
    - Open your browser's developer tools (usually by pressing F12 or right-clicking and selecting "Inspect").
    - Go to the "Console" tab.
    - Paste the following command and press Enter:
