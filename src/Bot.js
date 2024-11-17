@@ -30,21 +30,37 @@ class Bot {
   }
 
   async connectToProxy(proxy, userID) {
-    const formattedProxy = proxy.startsWith('socks5://')
-      ? proxy
-      : proxy.startsWith('http')
-      ? proxy
-      : `socks5://${proxy}`;
-    const proxyInfo = await this.getProxyIP(formattedProxy);
+    let formattedProxy;
 
-    if (!proxyInfo) {
-      return;
+    if (
+      /socks5:\/\/.*:.*:.*:.*$/.test(proxy) ||
+      /http:\/\/.*:.*:.*:.*$/.test(proxy)
+    ) {
+      formattedProxy = proxy;
+    } else if (
+      proxy.startsWith('socks5://') ||
+      proxy.startsWith('http://') ||
+      proxy.startsWith('https://')
+    ) {
+      formattedProxy = proxy;
+    } else {
+      formattedProxy = `socks5://${proxy}`;
     }
 
     try {
+      const proxyInfo = await this.getProxyIP(formattedProxy);
+
+      if (!proxyInfo) {
+        console.error(`Proxy ${formattedProxy} is not reachable.`.red);
+        return;
+      }
+
+      console.log(`Formatted Proxy: ${formattedProxy}`.cyan);
+
       const agent = formattedProxy.startsWith('http')
         ? new HttpsProxyAgent(formattedProxy)
         : new SocksProxyAgent(formattedProxy);
+
       const wsURL = `wss://${this.config.wssHost}`;
       const ws = new WebSocket(wsURL, {
         agent,
@@ -61,7 +77,7 @@ class Bot {
       });
 
       ws.on('open', () => {
-        console.log(`Connected to ${proxy}`.cyan);
+        console.log(`Connected to ${formattedProxy}`.cyan);
         console.log(`Proxy IP Info: ${JSON.stringify(proxyInfo)}`.magenta);
         this.sendPing(ws, proxyInfo.ip);
       });
@@ -104,7 +120,7 @@ class Bot {
 
       ws.on('error', (error) => {
         console.error(
-          `WebSocket error on proxy ${proxy}: ${error.message}`.red
+          `WebSocket error on proxy ${formattedProxy}: ${error.message}`.red
         );
         ws.terminate();
       });
